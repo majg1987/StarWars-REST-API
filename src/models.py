@@ -31,7 +31,7 @@ class User(db.Model):
     favourites = db.relationship('Favourites', backref = 'User')
 
     def __repr__(self):
-        return '<User %r>' % self.name
+        return '<User %r>' % self.id
 
     def serialize(self):
         return{
@@ -54,12 +54,12 @@ class Character(db.Model):
     eye_color = db.Column(db.String(50), nullable = False)
     skin_color = db.Column(db.String(50), nullable = False)
     url_image = db.Column(db.String(200), unique = True, nullable = False)
-    description = db.Column(db.String(1000), unique = True, nullable = False)
+    description = db.Column(db.String(500), unique = True, nullable = False)
     planet_id = db.Column(db.Integer, db.ForeignKey('planet.id'))
     vehicles = db.relationship('Vehicles', backref = 'character')
 
     def __repr__(self):
-        return '<Character %r>' % self.name
+        return '<Character %r>' % self.id
 
     def serialize(self):
         return{
@@ -87,12 +87,12 @@ class Planet(db.Model):
     orbit_rotation = db.Column(db.Integer, nullable = False)
     diameter = db.Column(db.Integer, nullable = False)
     url_image = db.Column(db.String(200), unique = True, nullable = False)
-    description = db.Column(db.String(1000), unique = True, nullable = False)
+    description = db.Column(db.String(500), unique = True, nullable = False)
     character = db.relationship('Character', backref = 'planet')
     vehicles = db.relationship('Vehicles', backref = 'planet')
 
     def __repr__(self):
-        return '<Planet %r>' % self.name
+        return '<Planet %r>' % self.id
 
     def serialize(self):
         return{
@@ -119,12 +119,12 @@ class Vehicles(db.Model):
     max_speed = db.Column(db.Integer, nullable = False)
     consumables = db.Column(db.Integer, nullable = False)
     url_image = db.Column(db.String(200), unique = True, nullable = False)
-    description = db.Column(db.String(1000), unique = True, nullable = False)
+    description = db.Column(db.String(500), unique = True, nullable = False)
     planet_id = db.Column(db.Integer, db.ForeignKey('planet.id'))
     character_id = db.Column(db.Integer, db.ForeignKey('character.id'))
 
     def __repr__(self):
-        return '<Vehicles %r>' % self.name
+        return '<Vehicles %r>' % self.id
 
     def serialize(self):
         return{
@@ -148,7 +148,7 @@ class Favourites(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return 'Favourites %r>' % self.name
+        return 'Favourites %r>' % self.id
 
     def serialize(self):
         return{
