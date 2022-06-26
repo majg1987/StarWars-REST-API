@@ -28,7 +28,7 @@ class User(db.Model):
     name = db.Column(db.String(250), nullable = False)
     email = db.Column(db.String(200), unique = True, nullable = False)
     password = db.Column(db.String(20), unique = True, nullable = False)
-    favourites = db.relationship('Favourites', backref = 'User')
+    favorites = db.relationship('Favorites', backref = 'User')
 
     def __repr__(self):
         return '<User %r>' % self.id
@@ -54,7 +54,7 @@ class Character(db.Model):
     eye_color = db.Column(db.String(50), nullable = False)
     skin_color = db.Column(db.String(50), nullable = False)
     url_image = db.Column(db.String(200), unique = True, nullable = False)
-    description = db.Column(db.String(500), unique = True, nullable = False)
+    description = db.Column(db.Text, unique = True, nullable = False)
     planet_id = db.Column(db.Integer, db.ForeignKey('planet.id'))
     vehicles = db.relationship('Vehicles', backref = 'character')
 
@@ -67,7 +67,7 @@ class Character(db.Model):
             "name": self.name,
             "gender": self.gender,
             "birth_date": self.birth_date,
-            "heigth": self.heigth,
+            "height": self.height,
             "hair_color": self.hair_color,
             "eye_color": self.eye_color,
             "skin_color": self.skin_color,
@@ -87,7 +87,7 @@ class Planet(db.Model):
     orbit_rotation = db.Column(db.Integer, nullable = False)
     diameter = db.Column(db.Integer, nullable = False)
     url_image = db.Column(db.String(200), unique = True, nullable = False)
-    description = db.Column(db.String(500), unique = True, nullable = False)
+    description = db.Column(db.Text, unique = True, nullable = False)
     character = db.relationship('Character', backref = 'planet')
     vehicles = db.relationship('Vehicles', backref = 'planet')
 
@@ -119,7 +119,7 @@ class Vehicles(db.Model):
     max_speed = db.Column(db.Integer, nullable = False)
     consumables = db.Column(db.Integer, nullable = False)
     url_image = db.Column(db.String(200), unique = True, nullable = False)
-    description = db.Column(db.String(500), unique = True, nullable = False)
+    description = db.Column(db.Text, unique = True, nullable = False)
     planet_id = db.Column(db.Integer, db.ForeignKey('planet.id'))
     character_id = db.Column(db.Integer, db.ForeignKey('character.id'))
 
@@ -141,14 +141,14 @@ class Vehicles(db.Model):
             "character_id": self.character_id
         }
 
-class Favourites(db.Model):
-    __tablename__ = 'favourites'
+class Favorites(db.Model):
+    __tablename__ = 'favorites'
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(250), nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return 'Favourites %r>' % self.id
+        return 'Favorites %r>' % self.id
 
     def serialize(self):
         return{

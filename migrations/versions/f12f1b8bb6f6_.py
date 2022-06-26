@@ -28,7 +28,7 @@ def upgrade():
     sa.Column('orbit_rotation', sa.Integer(), nullable=False),
     sa.Column('diameter', sa.Integer(), nullable=False),
     sa.Column('url_image', sa.String(length=200), nullable=False),
-    sa.Column('description', sa.String(length=500), nullable=False),
+    sa.Column('description', sa.Text(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('description'),
     sa.UniqueConstraint('description'),
@@ -47,7 +47,7 @@ def upgrade():
     sa.Column('eye_color', sa.String(length=50), nullable=False),
     sa.Column('skin_color', sa.String(length=50), nullable=False),
     sa.Column('url_image', sa.String(length=200), nullable=False),
-    sa.Column('description', sa.String(length=500), nullable=False),
+    sa.Column('description', sa.Text(), nullable=False),
     sa.Column('planet_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['planet_id'], ['planet.id'], ),
     sa.PrimaryKeyConstraint('id'),
@@ -58,7 +58,7 @@ def upgrade():
     sa.UniqueConstraint('url_image'),
     sa.UniqueConstraint('url_image')
     )
-    op.create_table('favourites',
+    op.create_table('favorites',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=250), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
@@ -74,7 +74,7 @@ def upgrade():
     sa.Column('max_speed', sa.Integer(), nullable=False),
     sa.Column('consumables', sa.Integer(), nullable=False),
     sa.Column('url_image', sa.String(length=200), nullable=False),
-    sa.Column('description', sa.String(length=500), nullable=False),
+    sa.Column('description', sa.Text(), nullable=False),
     sa.Column('planet_id', sa.Integer(), nullable=True),
     sa.Column('character_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['character_id'], ['character.id'], ),
@@ -101,7 +101,7 @@ def downgrade():
     op.drop_constraint(None, 'user', type_='unique')
     op.drop_column('user', 'name')
     op.drop_table('vehicles')
-    op.drop_table('favourites')
+    op.drop_table('favorites')
     op.drop_table('character')
     op.drop_table('planet')
     # ### end Alembic commands ###
