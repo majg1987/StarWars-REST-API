@@ -9,7 +9,7 @@ from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, User, Character, Planet, Vehicles, Favorites
-#from models import Person
+import json
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -121,15 +121,17 @@ def traer_favoritos_usuario(id):
     return jsonify(response_body), 200
 
 # # Añadir favoritos a un usuario
-# @app.route('user:<int:id>/favourites', methods=['GET'])
-# def añadir_favoritos_usuario(id):
-#     user_favourites = list(Favourites.query.filter_by(user_id = user_id).all())
-#     print(user_favourites)
-#     # favourite = user_favourites.serialize()
-#     response_body = {
-#         "results": user_favourites
-#     }
-#     return jsonify(response_body), 200
+@app.route('/user/<int:id>', methods=['POST'])
+def añadir_favoritos_usuario(id):
+    body = json.loads(request.data)
+    print(body)
+    favorite = Favorites(name = body["name"],user_id = body["user_id"])
+    db.session.add(favorite)
+    db.session.commit()
+    response_body = {
+        "results": "Favorito añadido correctamente"
+    }
+    return jsonify(response_body), 200
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
