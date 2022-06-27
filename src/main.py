@@ -138,12 +138,6 @@ def añadir_favoritos_usuario(id):
 def eliminar_favoritos_usuario(id, user_id):
     favorite = Favorites.query.filter_by(id = user_id).all()
     print(favorite)
-    # body = json.loads(request.data)
-    # print(body)
-    # favorite = Favorites(id = body["id"], name = body["name"], user_id = body["user_id"])
-    # delete_favorite = Favorites(body)
-    # print(favorite)
-
     db.session.delete(favorite[0])
     db.session.commit()
     response_body = {
