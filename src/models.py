@@ -54,7 +54,7 @@ class Character(db.Model):
     eye_color = db.Column(db.String(50), nullable = False)
     skin_color = db.Column(db.String(50), nullable = False)
     url_image = db.Column(db.String(200), unique = True, nullable = False)
-    description = db.Column(db.Text, unique = True, nullable = False)
+    description = db.Column(db.Text, nullable = False)
     planet_id = db.Column(db.Integer, db.ForeignKey('planet.id'))
     vehicles = db.relationship('Vehicles', backref = 'character')
 
@@ -87,7 +87,7 @@ class Planet(db.Model):
     orbit_rotation = db.Column(db.Integer, nullable = False)
     diameter = db.Column(db.Integer, nullable = False)
     url_image = db.Column(db.String(200), unique = True, nullable = False)
-    description = db.Column(db.Text, unique = True, nullable = False)
+    description = db.Column(db.Text, nullable = False)
     character = db.relationship('Character', backref = 'planet')
     vehicles = db.relationship('Vehicles', backref = 'planet')
 
@@ -119,7 +119,7 @@ class Vehicles(db.Model):
     max_speed = db.Column(db.Integer, nullable = False)
     consumables = db.Column(db.Integer, nullable = False)
     url_image = db.Column(db.String(200), unique = True, nullable = False)
-    description = db.Column(db.Text, unique = True, nullable = False)
+    description = db.Column(db.Text, nullable = False)
     planet_id = db.Column(db.Integer, db.ForeignKey('planet.id'))
     character_id = db.Column(db.Integer, db.ForeignKey('character.id'))
 
