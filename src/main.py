@@ -120,7 +120,7 @@ def traer_favoritos_usuario(id):
     }
     return jsonify(response_body), 200
 
-# # Añadir favoritos a un usuario
+# Añadir favoritos a un usuario
 @app.route('/user/<int:id>', methods=['POST'])
 def añadir_favoritos_usuario(id):
     body = json.loads(request.data)
@@ -133,6 +133,23 @@ def añadir_favoritos_usuario(id):
     }
     return jsonify(response_body), 200
 
+# Eliminar de lista de favoritos
+@app.route('/user/<int:id>/favorites/<int:user_id>', methods=['DELETE'])
+def eliminar_favoritos_usuario(id, user_id):
+    favorite = Favorites.query.filter_by(id = user_id).all()
+    print(favorite)
+    # body = json.loads(request.data)
+    # print(body)
+    # favorite = Favorites(id = body["id"], name = body["name"], user_id = body["user_id"])
+    # delete_favorite = Favorites(body)
+    # print(favorite)
+
+    db.session.delete(favorite[0])
+    db.session.commit()
+    response_body = {
+        "results": "Favorito eliminado correctamente"
+    }
+    return jsonify(response_body), 200
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
